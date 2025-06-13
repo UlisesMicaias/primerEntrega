@@ -1,0 +1,42 @@
+/* public/css/cart.css */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+#cartContainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#cartContainer div {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c82333;
+}

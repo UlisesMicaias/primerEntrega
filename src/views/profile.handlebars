@@ -1,0 +1,16 @@
+<h2>Perfil del Usuario</h2>
+<pre id="userData">Cargando...</pre>
+<script>
+    fetch('/api/sessions/current', {
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('userData').textContent = JSON.stringify(data.user, null, 2);
+        })
+        .catch(() => {
+            document.getElementById('userData').textContent = 'No autorizado';
+        });
+</script>
