@@ -2,8 +2,18 @@
     <ul>
         <li><a href="/">Inicio</a></li>
         <li><a href="/products">Productos</a></li>
-        <li><a href="/cart">Carrito</a></li>
+
+        {{#if user}}
+        {{#if (eq user.role 'admin')}}
+        <li><a href="/users">Usuarios</a></li>
+        {{/if}}
+        <li><a href="/cart">Mi carrito</a></li>
+        <li><span>Hola, {{user.first_name}}</span></li>
+        <li><a href="/api/sessions/logout">Logout</a></li>
+        {{else}}
         <li><a href="/login">Login</a></li>
         <li><a href="/register">Registro</a></li>
+        {{/if}}
     </ul>
 </nav>
+

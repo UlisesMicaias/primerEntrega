@@ -1,35 +1,21 @@
-import { createUser, findUserByEmail } from '../services/user.service.js';
-import { createHash, isValidPassword } from '../utils/hash.js';
-import { generateToken } from '../utils/jwt.js';
+import User from '../dao/models/User.js';
 
-export const register = async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
-    const existingUser = await findUserByEmail(email);
-    if (existingUser) return res.status(400).json({ error: 'User already exists' });
-
-    const newUser = await createUser({
-        first_name,
-        last_name,
-        email,
-        age,
-        password: createHash(password),
-        cart: null
-    });
-
-    res.status(201).json({ status: 'success', user: newUser });
+export const getAllUsers = async (req, res) => {
+    const users = await User.find().lean();
+    res.render('users', { users, title: 'Usuarios', page: 'users' });
 };
 
-export const login = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await findUserByEmail(email);
-    if (!user || !isValidPassword(user, password)) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const token = generateToken(user);
-    res.status(200).json({ token });
+export const getUserById = async (req, res) => {
+    const user = await User.findById(req.params.uid).lean();
+    res.render('userDetail', { user, title: 'Detalle de Usuario', page: 'userDetail' });
 };
 
-export const current = (req, res) => {
-    res.status(200).json({ user: req.user });
+export const updateUser = async (req, res) => {
+    const updated = await User.findByIdAndUpdate(req.params.uid, req.body, { new: true });
+    res.json(updated);
+};
+
+export const deleteUser = async (req, res) => {
+    await User.findByIdAndDelete(req.params.uid);
+    res.redirect('/users');
 };

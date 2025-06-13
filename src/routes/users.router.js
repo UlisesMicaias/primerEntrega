@@ -1,9 +1,17 @@
 import { Router } from 'express';
-import User from '../dao/models/User.js';
+import {
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser
+} from '../controllers/user.controllers.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => res.json(await User.find()));
-// Agrega rutas PUT, DELETE, GET by ID si lo necesitás más adelante.
+router.get('/', getAllUsers);
+router.get('/:uid', getUserById);
+router.put('/:uid', updateUser);
+router.delete('/:uid', deleteUser);
 
 export default router;
+

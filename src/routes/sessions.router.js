@@ -1,24 +1,33 @@
 import { Router } from 'express';
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
+import {
+    register,
+    login,
+    current,
+    logout
+} from '../controllers/sessions.controllers.js';
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', { session: false }), (req, res) => {
-    res.json({ status: 'success', message: 'Usuario registrado' });
-});
+router.post(
+    '/register',
+    passport.authenticate('register', { session: false }),
+    register
+);
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('login', { session: false }, (err, user, info) => {
-        if (!user) return res.status(401).json({ message: 'Credenciales inválidas' });
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
-    })(req, res, next);
-});
+router.post(
+    '/login',
+    passport.authenticate('login', { session: false }),
+    login
+);
 
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({ user: req.user });
-});
+router.get(
+    '/current',
+    passport.authenticate('jwt', { session: false }),
+    current
+);
+
+router.get('/logout', logout);
 
 export default router;
 
